@@ -79,6 +79,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)]
     fn lots_and_lots() {
         static M: SpinMutex<()> = SpinMutex::<_>::new(());
         static mut CNT: u32 = 0;

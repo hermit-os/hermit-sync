@@ -105,6 +105,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)]
     fn lots_and_lots() {
         static M: TicketMutex<()> = TicketMutex::<_>::new(());
         static mut CNT: u32 = 0;
