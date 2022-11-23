@@ -1,5 +1,9 @@
 # hermit-sync
 
+[![Crates.io](https://img.shields.io/crates/v/hermit-sync)](https://crates.io/crates/hermit-sync)
+[![docs.rs](https://img.shields.io/docsrs/hermit-sync)](https://docs.rs/hermit-sync)
+[![CI](https://github.com/hermitcore/hermit-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/hermitcore/hermit-sync/actions/workflows/ci.yml)
+
 hermit-sync provides synchronization primitives targeted at operating system kernels.
 
 For API documentation see the [docs].
