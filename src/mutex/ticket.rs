@@ -79,7 +79,10 @@ unsafe impl RawMutexFair for RawTicketMutex {
     }
 }
 
+/// A [`lock_api::Mutex`] based on [`RawTicketMutex`].
 pub type TicketMutex<T> = Mutex<RawTicketMutex, T>;
+
+/// A [`lock_api::MutexGuard`] based on [`RawTicketMutex`].
 pub type TicketMutexGuard<'a, T> = MutexGuard<'a, RawTicketMutex, T>;
 
 // From `spin::mutex::ticket`

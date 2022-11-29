@@ -53,7 +53,10 @@ unsafe impl RawMutex for RawSpinMutex {
     }
 }
 
+/// A [`lock_api::Mutex`] based on [`RawSpinMutex`].
 pub type SpinMutex<T> = Mutex<RawSpinMutex, T>;
+
+/// A [`lock_api::MutexGuard`] based on [`RawSpinMutex`].
 pub type SpinMutexGuard<'a, T> = MutexGuard<'a, RawSpinMutex, T>;
 
 // From `spin::mutex::spin`
