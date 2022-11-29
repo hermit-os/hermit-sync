@@ -21,6 +21,21 @@
 //!
 //! For API documentation see [`lock_api::Mutex`].
 //!
+//! ## Examples
+//!
+//! ```
+//! use hermit_sync::InterruptSpinMutex;
+//!
+//! static NUMBER: InterruptSpinMutex<usize> = InterruptSpinMutex::new(0);
+//!
+//! // Modify the data
+//! *NUMBER.lock() = 2;
+//!
+//! // Read the data
+//! let answer = *NUMBER.lock();
+//! assert_eq!(2, answer);
+//! ```
+//!
 //! # Initializing Static Data
 //!
 //! There are two primitives for safely initializing static data based on [`generic_once_cell`] and [`RawSpinMutex`]:
@@ -28,6 +43,24 @@
 //! * [`Lazy`] wraps a [`OnceCell`] and is initialized on the first access from a closure.
 //!
 //! For API documentation see [`generic_once_cell::OnceCell`] and [`generic_once_cell::Lazy`].
+//!
+//! ## Examples
+//!
+//! ```
+//! use std::collections::HashMap;
+//!
+//! use hermit_sync::InterruptLazy;
+//!
+//! static MAP: InterruptLazy<HashMap<usize, String>> = InterruptLazy::new(|| {
+//!     // This is run on the first access of MAP.
+//!     let mut map = HashMap::new();
+//!     map.insert(42, "Ferris".to_string());
+//!     map.insert(3, "やれやれだぜ".to_string());
+//!     map
+//! });
+//!
+//! assert_eq!("Ferris", MAP.get(&42).unwrap());
+//! ```
 //!
 //! # Type Definitions
 //!
