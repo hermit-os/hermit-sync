@@ -55,5 +55,8 @@ unsafe impl<I: RawMutex> RawMutex for RawInterruptMutex<I> {
     }
 }
 
+/// A [`lock_api::Mutex`] based on [`RawInterruptMutex`].
 pub type InterruptMutex<I, T> = Mutex<RawInterruptMutex<I>, T>;
+
+/// A [`lock_api::MutexGuard`] based on [`RawInterruptMutex`].
 pub type InterruptMutexGuard<'a, I, T> = MutexGuard<'a, RawInterruptMutex<I>, T>;

@@ -35,14 +35,18 @@
 //!
 //! | [`RawMutex`]       | Base                 | With [`RawInterruptMutex`]    |
 //! | ------------------ | -------------------- | ----------------------------- |
-//! | [`RawSpinMutex`]   | [`SpinMutex`]        | [`InterruptSpinMutex`]        |
+//! | `R`                | [`Mutex`]            | [`InterruptMutex`]            |
+//! | [`RawSpinMutex`]   |                      | [`RawInterruptSpinMutex`]     |
+//! |                    | [`SpinMutex`]        | [`InterruptSpinMutex`]        |
 //! |                    | [`SpinMutexGuard`]   | [`InterruptSpinMutexGuard`]   |
 //! |                    | [`OnceCell`]         | [`InterruptOnceCell`]         |
 //! |                    | [`Lazy`]             | [`InterruptLazy`]             |
-//! | [`RawTicketMutex`] | [`TicketMutex`]      | [`InterruptTicketMutex`]      |
+//! | [`RawTicketMutex`] |                      | [`RawInterruptTicketMutex`]   |
+//! |                    | [`TicketMutex`]      | [`InterruptTicketMutex`]      |
 //! |                    | [`TicketMutexGuard`] | [`InterruptTicketMutexGuard`] |
 //!
 //! [`RawMutex`]: lock_api::RawMutex
+//! [`Mutex`]: lock_api::Mutex
 
 #![cfg_attr(not(test), no_std)]
 #![warn(unsafe_op_in_unsafe_fn)]
@@ -56,11 +60,17 @@ pub use mutex::{
     spin::{RawSpinMutex, SpinMutex, SpinMutexGuard},
     ticket::{RawTicketMutex, TicketMutex, TicketMutexGuard},
     InterruptSpinMutex, InterruptSpinMutexGuard, InterruptTicketMutex, InterruptTicketMutexGuard,
+    RawInterruptSpinMutex, RawInterruptTicketMutex,
 };
 
-pub type OnceCell<T> = generic_once_cell::OnceCell<mutex::spin::RawSpinMutex, T>;
-pub type Lazy<T, F = fn() -> T> = generic_once_cell::Lazy<mutex::spin::RawSpinMutex, T, F>;
+/// A [`generic_once_cell::OnceCell`], initialized using [`RawSpinMutex`].
+pub type OnceCell<T> = generic_once_cell::OnceCell<RawSpinMutex, T>;
 
-pub type InterruptOnceCell<T> = generic_once_cell::OnceCell<mutex::RawInterruptSpinMutex, T>;
-pub type InterruptLazy<T, F = fn() -> T> =
-    generic_once_cell::Lazy<mutex::RawInterruptSpinMutex, T, F>;
+/// A [`generic_once_cell::Lazy`], initialized using [`RawSpinMutex`].
+pub type Lazy<T, F = fn() -> T> = generic_once_cell::Lazy<RawSpinMutex, T, F>;
+
+/// A [`generic_once_cell::OnceCell`], initialized using [`RawInterruptSpinMutex`].
+pub type InterruptOnceCell<T> = generic_once_cell::OnceCell<RawInterruptSpinMutex, T>;
+
+/// A [`generic_once_cell::Lazy`], initialized using [`RawInterruptSpinMutex`].
+pub type InterruptLazy<T, F = fn() -> T> = generic_once_cell::Lazy<RawInterruptSpinMutex, T, F>;
