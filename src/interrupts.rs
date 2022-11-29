@@ -5,6 +5,8 @@
 ///
 /// If you have other `enable` and `disable` calls _within_ the closure, things may not work as expected.
 ///
+/// Only has an effect if `target_os = "none"`.
+///
 /// # Examples
 ///
 /// ```ignore
@@ -35,13 +37,17 @@ where
 
 #[inline]
 pub(crate) fn read_disable() -> imp::Flags {
-    let flags = imp::get();
+    if cfg!(target_os = "none") {
+        let flags = imp::get();
 
-    if flags != DISABLE && cfg!(target_os = "none") {
-        imp::set(DISABLE);
+        if flags != DISABLE {
+            imp::set(DISABLE);
+        }
+
+        flags
+    } else {
+        DISABLE
     }
-
-    flags
 }
 
 #[inline]

@@ -7,6 +7,7 @@ use crate::interrupts::{self, AtomicFlags};
 /// An interrupt-safe mutex.
 ///
 /// This mutex wraps another [`RawMutex`] and disables interrupts while locked.
+/// Only has an effect if `target_os = "none"`.
 pub struct RawInterruptMutex<I> {
     inner: I,
     interrupt_flags: AtomicFlags,
