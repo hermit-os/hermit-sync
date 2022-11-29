@@ -9,7 +9,9 @@
 ///
 /// # Examples
 ///
-/// ```ignore
+/// ```
+/// use hermit_sync::without_interrupts;
+///
 /// // interrupts are enabled
 /// without_interrupts(|| {
 ///     // interrupts are disabled
