@@ -87,6 +87,7 @@
 pub(crate) mod interrupts;
 pub(crate) mod mutex;
 
+pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};
 pub use interrupts::without_interrupts;
 pub use mutex::{
     interrupt::{InterruptMutex, InterruptMutexGuard, RawInterruptMutex},
