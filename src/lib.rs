@@ -62,6 +62,10 @@
 //! assert_eq!("Ferris", MAP.get(&42).unwrap());
 //! ```
 //!
+//! # Accessing Static Data Mutably
+//!
+//! There is [`ExclusiveCell`] for safely accessing static data mutable _once_.
+//!
 //! # Type Definitions
 //!
 //! This crate provides a lot of type definitions for ease of use:
