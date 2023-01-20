@@ -1,7 +1,7 @@
 use core::sync::atomic::{AtomicBool, Ordering};
 
 use crossbeam_utils::Backoff;
-use lock_api::{GuardSend, Mutex, MutexGuard, RawMutex};
+use lock_api::{GuardSend, RawMutex};
 
 /// A simple [test and test-and-set] [spinlock] with [exponential backoff].
 ///
@@ -54,10 +54,10 @@ unsafe impl RawMutex for RawSpinMutex {
 }
 
 /// A [`lock_api::Mutex`] based on [`RawSpinMutex`].
-pub type SpinMutex<T> = Mutex<RawSpinMutex, T>;
+pub type SpinMutex<T> = lock_api::Mutex<RawSpinMutex, T>;
 
 /// A [`lock_api::MutexGuard`] based on [`RawSpinMutex`].
-pub type SpinMutexGuard<'a, T> = MutexGuard<'a, RawSpinMutex, T>;
+pub type SpinMutexGuard<'a, T> = lock_api::MutexGuard<'a, RawSpinMutex, T>;
 
 // From `spin::mutex::spin`
 #[cfg(test)]

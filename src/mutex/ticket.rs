@@ -1,7 +1,7 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
 use crossbeam_utils::Backoff;
-use lock_api::{GuardSend, Mutex, MutexGuard, RawMutex, RawMutexFair};
+use lock_api::{GuardSend, RawMutex, RawMutexFair};
 
 /// A [fair] [ticket lock] with [exponential backoff].
 ///
@@ -80,10 +80,10 @@ unsafe impl RawMutexFair for RawTicketMutex {
 }
 
 /// A [`lock_api::Mutex`] based on [`RawTicketMutex`].
-pub type TicketMutex<T> = Mutex<RawTicketMutex, T>;
+pub type TicketMutex<T> = lock_api::Mutex<RawTicketMutex, T>;
 
 /// A [`lock_api::MutexGuard`] based on [`RawTicketMutex`].
-pub type TicketMutexGuard<'a, T> = MutexGuard<'a, RawTicketMutex, T>;
+pub type TicketMutexGuard<'a, T> = lock_api::MutexGuard<'a, RawTicketMutex, T>;
 
 // From `spin::mutex::ticket`
 #[cfg(test)]
