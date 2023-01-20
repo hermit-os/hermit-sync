@@ -1,6 +1,6 @@
 use core::sync::atomic::Ordering;
 
-use lock_api::{Mutex, MutexGuard, RawMutex};
+use lock_api::RawMutex;
 
 use crate::interrupts::{self, AtomicFlags};
 
@@ -57,7 +57,7 @@ unsafe impl<I: RawMutex> RawMutex for RawInterruptMutex<I> {
 }
 
 /// A [`lock_api::Mutex`] based on [`RawInterruptMutex`].
-pub type InterruptMutex<I, T> = Mutex<RawInterruptMutex<I>, T>;
+pub type InterruptMutex<I, T> = lock_api::Mutex<RawInterruptMutex<I>, T>;
 
 /// A [`lock_api::MutexGuard`] based on [`RawInterruptMutex`].
-pub type InterruptMutexGuard<'a, I, T> = MutexGuard<'a, RawInterruptMutex<I>, T>;
+pub type InterruptMutexGuard<'a, I, T> = lock_api::MutexGuard<'a, RawInterruptMutex<I>, T>;
