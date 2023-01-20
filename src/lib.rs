@@ -90,6 +90,7 @@
 
 pub(crate) mod interrupts;
 pub(crate) mod mutex;
+pub(crate) mod rwlock;
 
 pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};
 pub use interrupts::without_interrupts;
@@ -99,6 +100,10 @@ pub use mutex::{
     ticket::{RawTicketMutex, TicketMutex, TicketMutexGuard},
     InterruptSpinMutex, InterruptSpinMutexGuard, InterruptTicketMutex, InterruptTicketMutexGuard,
     RawInterruptSpinMutex, RawInterruptTicketMutex,
+};
+pub use rwlock::{
+    RawRwSpinLock, RwSpinLock, RwSpinLockReadGuard, RwSpinLockUpgradableReadGuard,
+    RwSpinLockWriteGuard,
 };
 
 /// A [`generic_once_cell::OnceCell`], initialized using [`RawSpinMutex`].
