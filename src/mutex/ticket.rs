@@ -88,17 +88,12 @@ pub type TicketMutexGuard<'a, T> = MutexGuard<'a, RawTicketMutex, T>;
 // From `spin::mutex::ticket`
 #[cfg(test)]
 mod tests {
-    use std::prelude::v1::*;
+    use super::*;
 
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::channel;
     use std::sync::Arc;
     use std::thread;
-
-    type TicketMutex<T> = super::TicketMutex<T>;
-
-    #[derive(Eq, PartialEq, Debug)]
-    struct NonCopy(i32);
 
     #[test]
     fn smoke() {
@@ -165,8 +160,8 @@ mod tests {
 
     #[test]
     fn test_into_inner() {
-        let m = TicketMutex::<_>::new(NonCopy(10));
-        assert_eq!(m.into_inner(), NonCopy(10));
+        let m = TicketMutex::<_>::new(Box::new(10));
+        assert_eq!(m.into_inner(), Box::new(10));
     }
 
     #[test]

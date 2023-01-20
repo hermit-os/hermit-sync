@@ -62,17 +62,12 @@ pub type SpinMutexGuard<'a, T> = MutexGuard<'a, RawSpinMutex, T>;
 // From `spin::mutex::spin`
 #[cfg(test)]
 mod tests {
-    use std::prelude::v1::*;
+    use super::*;
 
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::channel;
     use std::sync::Arc;
-    use std::thread;
-
-    type SpinMutex<T> = super::SpinMutex<T>;
-
-    #[derive(Eq, PartialEq, Debug)]
-    struct NonCopy(i32);
+    use std::{mem, thread};
 
     #[test]
     fn smoke() {
@@ -139,8 +134,8 @@ mod tests {
 
     #[test]
     fn test_into_inner() {
-        let m = SpinMutex::<_>::new(NonCopy(10));
-        assert_eq!(m.into_inner(), NonCopy(10));
+        let m = SpinMutex::<_>::new(Box::new(10));
+        assert_eq!(m.into_inner(), Box::new(10));
     }
 
     #[test]
@@ -213,7 +208,7 @@ mod tests {
     #[test]
     fn test_mutex_force_lock() {
         let lock = SpinMutex::<_>::new(());
-        ::std::mem::forget(lock.lock());
+        mem::forget(lock.lock());
         unsafe {
             lock.force_unlock();
         }
