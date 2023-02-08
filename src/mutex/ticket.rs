@@ -1,7 +1,8 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-use crossbeam_utils::Backoff;
 use lock_api::{GuardSend, RawMutex, RawMutexFair};
+
+use crate::backoff::Backoff;
 
 /// A [fair] [ticket lock] with [exponential backoff].
 ///
@@ -27,9 +28,9 @@ unsafe impl RawMutex for RawTicketMutex {
     fn lock(&self) {
         let ticket = self.next_ticket.fetch_add(1, Ordering::Relaxed);
 
-        let backoff = Backoff::new();
+        let mut backoff = Backoff::new();
         while self.next_serving.load(Ordering::Acquire) != ticket {
-            backoff.spin();
+            backoff.snooze();
         }
     }
 

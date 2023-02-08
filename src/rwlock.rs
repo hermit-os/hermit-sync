@@ -1,10 +1,11 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-use crossbeam_utils::Backoff;
 use lock_api::{
     GuardSend, RawRwLock, RawRwLockDowngrade, RawRwLockRecursive, RawRwLockUpgrade,
     RawRwLockUpgradeDowngrade,
 };
+
+use crate::backoff::Backoff;
 
 /// A simple spinning, read-preferring [readers-writer lock] with [exponential backoff].
 ///
@@ -58,9 +59,9 @@ unsafe impl RawRwLock for RawRwSpinLock {
 
     #[inline]
     fn lock_shared(&self) {
-        let backoff = Backoff::new();
+        let mut backoff = Backoff::new();
         while !self.try_lock_shared() {
-            backoff.spin();
+            backoff.snooze();
         }
     }
 
@@ -88,13 +89,13 @@ unsafe impl RawRwLock for RawRwSpinLock {
 
     #[inline]
     fn lock_exclusive(&self) {
-        let backoff = Backoff::new();
+        let mut backoff = Backoff::new();
         while self
             .lock
             .compare_exchange_weak(0, EXCLUSIVE, Ordering::Acquire, Ordering::Relaxed)
             .is_err()
         {
-            backoff.spin();
+            backoff.snooze();
         }
     }
 
@@ -150,9 +151,9 @@ unsafe impl RawRwLockDowngrade for RawRwSpinLock {
 unsafe impl RawRwLockUpgrade for RawRwSpinLock {
     #[inline]
     fn lock_upgradable(&self) {
-        let backoff = Backoff::new();
+        let mut backoff = Backoff::new();
         while !self.try_lock_upgradable() {
-            backoff.spin();
+            backoff.snooze();
         }
     }
 
@@ -180,13 +181,13 @@ unsafe impl RawRwLockUpgrade for RawRwSpinLock {
 
     #[inline]
     unsafe fn upgrade(&self) {
-        let backoff = Backoff::new();
+        let mut backoff = Backoff::new();
         while self
             .lock
             .compare_exchange_weak(UPGRADABLE, EXCLUSIVE, Ordering::Acquire, Ordering::Relaxed)
             .is_err()
         {
-            backoff.spin();
+            backoff.snooze();
         }
     }
 

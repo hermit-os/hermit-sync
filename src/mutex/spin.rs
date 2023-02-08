@@ -1,7 +1,8 @@
 use core::sync::atomic::{AtomicBool, Ordering};
 
-use crossbeam_utils::Backoff;
 use lock_api::{GuardSend, RawMutex};
+
+use crate::backoff::Backoff;
 
 /// A simple [test and test-and-set] [spinlock] with [exponential backoff].
 ///
@@ -23,14 +24,14 @@ unsafe impl RawMutex for RawSpinMutex {
 
     #[inline]
     fn lock(&self) {
-        let backoff = Backoff::new();
+        let mut backoff = Backoff::new();
         while self
             .lock
             .compare_exchange_weak(false, true, Ordering::Acquire, Ordering::Relaxed)
             .is_err()
         {
             while self.is_locked() {
-                backoff.spin();
+                backoff.snooze();
             }
         }
     }

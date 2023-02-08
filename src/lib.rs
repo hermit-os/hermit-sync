@@ -88,6 +88,7 @@
 #![cfg_attr(not(test), no_std)]
 #![warn(unsafe_op_in_unsafe_fn)]
 
+mod backoff;
 pub(crate) mod interrupts;
 pub(crate) mod mutex;
 pub(crate) mod rwlock;
