@@ -21,3 +21,6 @@ x86_64 = { version = "0.14", default-features = false, features = [ "instruction
 [target.'cfg(target_arch = "aarch64")'.dependencies]
 aarch64-cpu = "9.0"
 tock-registers = { version = "0.8", default-features = false }
+
+[dev-dependencies]
+rand = "0.8"
