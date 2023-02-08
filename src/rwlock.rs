@@ -127,7 +127,7 @@ unsafe impl RawRwLock for RawRwSpinLock {
 unsafe impl RawRwLockRecursive for RawRwSpinLock {
     #[inline]
     fn lock_shared_recursive(&self) {
-        self.lock_shared()
+        self.lock_shared();
     }
 
     #[inline]
