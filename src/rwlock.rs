@@ -233,14 +233,14 @@ pub type RwSpinLockWriteGuard<'a, T> = lock_api::RwLockWriteGuard<'a, RawRwSpinL
 // Adapted from `spin::rwlock`
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::channel;
     use std::sync::Arc;
     use std::{mem, thread};
 
     use lock_api::{RwLockUpgradableReadGuard, RwLockWriteGuard};
+
+    use super::*;
 
     #[test]
     fn test_unlock_shared() {
