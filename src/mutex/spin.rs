@@ -62,12 +62,12 @@ pub type SpinMutexGuard<'a, T> = lock_api::MutexGuard<'a, RawSpinMutex, T>;
 // From `spin::mutex::spin`
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::channel;
     use std::sync::Arc;
     use std::{mem, thread};
+
+    use super::*;
 
     #[test]
     fn smoke() {
