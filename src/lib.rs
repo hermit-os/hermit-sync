@@ -78,6 +78,9 @@
 //! |                    | [`SpinMutexGuard`]   | [`InterruptSpinMutexGuard`]   |
 //! |                    | [`OnceCell`]         | [`InterruptOnceCell`]         |
 //! |                    | [`Lazy`]             | [`InterruptLazy`]             |
+//! | [`RawStillMutex`]  |                      | [`RawInterruptStillMutex`]     |
+//! |                    | [`StillMutex`]       | [`InterruptStillMutex`]        |
+//! |                    | [`StillMutexGuard`]  | [`InterruptStillMutexGuard`]   |
 //! | [`RawTicketMutex`] |                      | [`RawInterruptTicketMutex`]   |
 //! |                    | [`TicketMutex`]      | [`InterruptTicketMutex`]      |
 //! |                    | [`TicketMutexGuard`] | [`InterruptTicketMutexGuard`] |
@@ -97,10 +100,12 @@ pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};
 pub use interrupts::without_interrupts;
 pub use mutex::interrupt::{InterruptMutex, InterruptMutexGuard, RawInterruptMutex};
 pub use mutex::spin::{RawSpinMutex, SpinMutex, SpinMutexGuard};
+pub use mutex::still::{RawStillMutex, StillMutex, StillMutexGuard};
 pub use mutex::ticket::{RawTicketMutex, TicketMutex, TicketMutexGuard};
 pub use mutex::{
-    InterruptSpinMutex, InterruptSpinMutexGuard, InterruptTicketMutex, InterruptTicketMutexGuard,
-    RawInterruptSpinMutex, RawInterruptTicketMutex,
+    InterruptSpinMutex, InterruptSpinMutexGuard, InterruptStillMutex, InterruptStillMutexGuard,
+    InterruptTicketMutex, InterruptTicketMutexGuard, RawInterruptSpinMutex, RawInterruptStillMutex,
+    RawInterruptTicketMutex,
 };
 pub use rwlock::{
     RawRwSpinLock, RwSpinLock, RwSpinLockReadGuard, RwSpinLockUpgradableReadGuard,
