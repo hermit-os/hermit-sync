@@ -23,3 +23,6 @@ tock-registers = { version = "0.8", default-features = false }
 
 [dev-dependencies]
 rand = "0.8"
+
+[features]
+all-still = []

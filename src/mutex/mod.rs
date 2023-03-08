@@ -1,7 +1,22 @@
 pub(crate) mod interrupt;
+#[cfg(not(feature = "all-still"))]
 pub(crate) mod spin;
+#[cfg(feature = "all-still")]
+pub(crate) mod spin {
+    pub use super::still::{
+        RawStillMutex as RawSpinMutex, StillMutex as SpinMutex, StillMutexGuard as SpinMutexGuard,
+    };
+}
 pub(crate) mod still;
+#[cfg(not(feature = "all-still"))]
 pub(crate) mod ticket;
+#[cfg(feature = "all-still")]
+pub(crate) mod ticket {
+    pub use super::still::{
+        RawStillMutex as RawTicketMutex, StillMutex as TicketMutex,
+        StillMutexGuard as TicketMutexGuard,
+    };
+}
 
 use interrupt::RawInterruptMutex;
 use spin::RawSpinMutex;
