@@ -1,3 +1,4 @@
+#[cfg(not(feature = "all-one-shot"))]
 pub(crate) mod spin {
     /// A simple spinlock with exponential backoff.
     pub type RawSpinMutex = spinning_top::RawSpinlock<spinning_top::relax::Backoff>;
@@ -8,7 +9,22 @@ pub(crate) mod spin {
     /// A [`lock_api::MutexGuard`] based on [`RawSpinMutex`].
     pub type SpinMutexGuard<'a, T> = lock_api::MutexGuard<'a, RawSpinMutex, T>;
 }
+#[cfg(feature = "all-one-shot")]
+pub(crate) mod spin {
+    pub use one_shot_mutex::{
+        OneShotMutex as SpinMutex, OneShotMutexGuard as SpinMutexGuard,
+        RawOneShotMutex as RawSpinMutex,
+    };
+}
+#[cfg(not(feature = "all-one-shot"))]
 pub(crate) mod ticket;
+#[cfg(feature = "all-one-shot")]
+pub(crate) mod ticket {
+    pub use one_shot_mutex::{
+        OneShotMutex as TicketMutex, OneShotMutexGuard as TicketMutexGuard,
+        RawOneShotMutex as RawTicketMutex,
+    };
+}
 
 use interrupt_mutex::RawInterruptMutex;
 use one_shot_mutex::RawOneShotMutex;

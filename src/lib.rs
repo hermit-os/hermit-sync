@@ -92,6 +92,7 @@
 #![warn(unsafe_op_in_unsafe_fn)]
 
 pub(crate) mod mutex;
+#[cfg(not(feature = "all-one-shot"))]
 pub(crate) mod rwlock {
     /// A simple spinning, read-preferring readers-writer lock with exponential backoff.
     pub type RawRwSpinLock = spinning_top::RawRwSpinlock<spinning_top::relax::Backoff>;
@@ -108,6 +109,14 @@ pub(crate) mod rwlock {
 
     /// A [`lock_api::RwLockWriteGuard`] based on [`RawRwSpinLock`].
     pub type RwSpinLockWriteGuard<'a, T> = lock_api::RwLockWriteGuard<'a, RawRwSpinLock, T>;
+}
+#[cfg(feature = "all-one-shot")]
+pub(crate) mod rwlock {
+    pub use one_shot_mutex::{
+        OneShotRwLock as RwSpinLock, OneShotRwLockReadGuard as RwSpinLockReadGuard,
+        OneShotRwLockUpgradableReadGuard as RwSpinLockUpgradableReadGuard,
+        OneShotRwLockWriteGuard as RwSpinLockWriteGuard, RawOneShotRwLock as RawRwSpinLock,
+    };
 }
 
 pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};

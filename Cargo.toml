@@ -20,3 +20,6 @@ spinning_top = "0.3"
 
 [dev-dependencies]
 rand = "0.8"
+
+[features]
+all-one-shot = []
