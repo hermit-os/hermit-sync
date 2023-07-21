@@ -102,3 +102,29 @@ mod imp {
         DAIF.set(value);
     }
 }
+
+#[cfg(target_arch = "riscv64")]
+mod imp {
+    use riscv::register::sstatus;
+
+    pub type Flags = bool;
+    pub type AtomicFlags = core::sync::atomic::AtomicBool;
+
+    pub const DISABLE: bool = false;
+
+    #[inline]
+    pub fn get() -> bool {
+        sstatus::read().sie()
+    }
+
+    #[inline]
+    pub fn set(value: bool) {
+        unsafe {
+            if value {
+                sstatus::set_sie();
+            } else {
+                sstatus::clear_sie();
+            }
+        }
+    }
+}
