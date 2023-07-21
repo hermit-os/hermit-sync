@@ -21,5 +21,8 @@ x86_64 = { version = "0.14", default-features = false, features = [ "instruction
 aarch64-cpu = "9.0"
 tock-registers = { version = "0.8", default-features = false }
 
+[target.'cfg(target_arch = "riscv64")'.dependencies]
+riscv = "0.10"
+
 [dev-dependencies]
 rand = "0.8"

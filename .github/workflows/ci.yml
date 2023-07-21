@@ -15,7 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo clippy
+        with:
+          targets: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,riscv64gc-unknown-linux-gnu
+          components: clippy
+      - run: |
+          cargo clippy --target x86_64-unknown-linux-gnu
+          cargo clippy --target aarch64-unknown-linux-gnu
+          cargo clippy --target riscv64gc-unknown-linux-gnu
 
   doc:
     name: Check documentation
