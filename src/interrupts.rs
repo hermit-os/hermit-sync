@@ -90,15 +90,19 @@ mod imp {
     pub type Flags = u64;
     pub type AtomicFlags = core::sync::atomic::AtomicU64;
 
-    pub const DISABLE: u64 = 0;
+    /// Set the `A`, `I`, and `F` bit for _masking_ interrupts.
+    pub const DISABLE: u64 = 0b111000000;
 
     #[inline]
     pub fn get() -> u64 {
-        DAIF.get()
+        // Return only the relevant bits
+        DAIF.get() & DISABLE
     }
 
     #[inline]
     pub fn set(value: u64) {
+        // Set only the relevant bits
+        let value = (DAIF.get() & !DISABLE) | value;
         DAIF.set(value);
     }
 }
