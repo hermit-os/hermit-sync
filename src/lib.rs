@@ -89,12 +89,11 @@
 #![warn(unsafe_op_in_unsafe_fn)]
 
 mod backoff;
-pub(crate) mod interrupts;
 pub(crate) mod mutex;
 pub(crate) mod rwlock;
 
 pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};
-pub use interrupts::without_interrupts;
+pub use interrupts::without as without_interrupts;
 pub use mutex::interrupt::{InterruptMutex, InterruptMutexGuard, RawInterruptMutex};
 pub use mutex::spin::{RawSpinMutex, SpinMutex, SpinMutexGuard};
 pub use mutex::ticket::{RawTicketMutex, TicketMutex, TicketMutexGuard};

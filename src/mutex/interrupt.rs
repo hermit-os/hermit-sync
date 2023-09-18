@@ -1,8 +1,7 @@
-use core::sync::atomic::Ordering;
+use core::cell::UnsafeCell;
+use core::mem::MaybeUninit;
 
 use lock_api::{GuardNoSend, RawMutex};
-
-use crate::interrupts::{self, AtomicFlags};
 
 /// An interrupt-safe mutex.
 ///
@@ -10,44 +9,56 @@ use crate::interrupts::{self, AtomicFlags};
 /// Only has an effect if `target_os = "none"`.
 pub struct RawInterruptMutex<I> {
     inner: I,
-    interrupt_flags: AtomicFlags,
+    interrupt_guard: UnsafeCell<MaybeUninit<interrupts::Guard>>,
 }
+
+// SAFETY: The `UnsafeCell` is locked by `inner`, initialized on `lock` and uninitialized on `unlock`.
+unsafe impl<I: Sync> Sync for RawInterruptMutex<I> {}
+// SAFETY: Mutexes cannot be send to other threads while locked.
+// Sending them while unlocked is fine.
+unsafe impl<I: Send> Send for RawInterruptMutex<I> {}
 
 unsafe impl<I: RawMutex> RawMutex for RawInterruptMutex<I> {
     const INIT: Self = Self {
         inner: I::INIT,
-        interrupt_flags: AtomicFlags::new(interrupts::DISABLE),
+        interrupt_guard: UnsafeCell::new(MaybeUninit::uninit()),
     };
 
     type GuardMarker = GuardNoSend;
 
     #[inline]
     fn lock(&self) {
-        let interrupt_flags = crate::interrupts::read_disable();
+        let guard = interrupts::disable();
         self.inner.lock();
-        self.interrupt_flags
-            .store(interrupt_flags, Ordering::Relaxed);
+        // SAFETY: We have exclusive access through locking `inner`.
+        unsafe {
+            self.interrupt_guard.get().write(MaybeUninit::new(guard));
+        }
     }
 
     #[inline]
     fn try_lock(&self) -> bool {
-        let interrupt_flags = crate::interrupts::read_disable();
+        let guard = interrupts::disable();
         let ok = self.inner.try_lock();
-        if !ok {
-            crate::interrupts::restore(interrupt_flags);
+        if ok {
+            // SAFETY: We have exclusive access through locking `inner`.
+            unsafe {
+                self.interrupt_guard.get().write(MaybeUninit::new(guard));
+            }
         }
         ok
     }
 
     #[inline]
     unsafe fn unlock(&self) {
-        let interrupt_flags = self
-            .interrupt_flags
-            .swap(interrupts::DISABLE, Ordering::Relaxed);
+        // SAFETY: We have exclusive access through locking `inner`.
+        let guard = unsafe { self.interrupt_guard.get().replace(MaybeUninit::uninit()) };
+        // SAFETY: `guard` was initialized when locking.
+        let guard = unsafe { guard.assume_init() };
         unsafe {
             self.inner.unlock();
         }
-        crate::interrupts::restore(interrupt_flags);
+        drop(guard);
     }
 
     #[inline]
