@@ -1,6 +1,6 @@
 use core::sync::atomic::Ordering;
 
-use lock_api::RawMutex;
+use lock_api::{GuardNoSend, RawMutex};
 
 use crate::interrupts::{self, AtomicFlags};
 
@@ -19,7 +19,7 @@ unsafe impl<I: RawMutex> RawMutex for RawInterruptMutex<I> {
         interrupt_flags: AtomicFlags::new(interrupts::DISABLE),
     };
 
-    type GuardMarker = I::GuardMarker;
+    type GuardMarker = GuardNoSend;
 
     #[inline]
     fn lock(&self) {
