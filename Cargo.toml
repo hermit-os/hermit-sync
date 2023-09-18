@@ -1,6 +1,6 @@
 [package]
 name = "hermit-sync"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Martin Kröning <mkroening@posteo.net>"]
 edition = "2021"
 description = "Synchronization primitives for kernels."
@@ -12,17 +12,8 @@ categories = ["rust-patterns", "no-std"]
 [dependencies]
 exclusive_cell = "0.1"
 generic_once_cell = "0.1"
+interrupts = "0.1"
 lock_api = "0.4"
-
-[target.'cfg(target_arch = "x86_64")'.dependencies]
-x86_64 = { version = "0.14", default-features = false, features = [ "instructions" ] }
-
-[target.'cfg(target_arch = "aarch64")'.dependencies]
-aarch64-cpu = "9.0"
-tock-registers = { version = "0.8", default-features = false }
-
-[target.'cfg(target_arch = "riscv64")'.dependencies]
-riscv = "0.10"
 
 [dev-dependencies]
 rand = "0.8"
