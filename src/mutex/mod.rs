@@ -1,8 +1,7 @@
-pub(crate) mod interrupt;
 pub(crate) mod spin;
 pub(crate) mod ticket;
 
-use interrupt::RawInterruptMutex;
+use interrupt_mutex::RawInterruptMutex;
 use spin::RawSpinMutex;
 use ticket::RawTicketMutex;
 

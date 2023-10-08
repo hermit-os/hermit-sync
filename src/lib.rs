@@ -93,8 +93,8 @@ pub(crate) mod mutex;
 pub(crate) mod rwlock;
 
 pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};
+pub use interrupt_mutex::{InterruptMutex, InterruptMutexGuard, RawInterruptMutex};
 pub use interrupts::without as without_interrupts;
-pub use mutex::interrupt::{InterruptMutex, InterruptMutexGuard, RawInterruptMutex};
 pub use mutex::spin::{RawSpinMutex, SpinMutex, SpinMutexGuard};
 pub use mutex::ticket::{RawTicketMutex, TicketMutex, TicketMutexGuard};
 pub use mutex::{
