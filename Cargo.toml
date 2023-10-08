@@ -13,6 +13,7 @@ categories = ["rust-patterns", "no-std"]
 exclusive_cell = "0.1"
 generic_once_cell = "0.1"
 interrupts = "0.1"
+interrupt-mutex = "0.1"
 lock_api = "0.4"
 
 [dev-dependencies]
