@@ -70,17 +70,20 @@
 //!
 //! This crate provides a lot of type definitions for ease of use:
 //!
-//! | [`RawMutex`]       | Base                 | With [`RawInterruptMutex`]    |
-//! | ------------------ | -------------------- | ----------------------------- |
-//! | `R`                | [`Mutex`]            | [`InterruptMutex`]            |
-//! | [`RawSpinMutex`]   |                      | [`RawInterruptSpinMutex`]     |
-//! |                    | [`SpinMutex`]        | [`InterruptSpinMutex`]        |
-//! |                    | [`SpinMutexGuard`]   | [`InterruptSpinMutexGuard`]   |
-//! |                    | [`OnceCell`]         | [`InterruptOnceCell`]         |
-//! |                    | [`Lazy`]             | [`InterruptLazy`]             |
-//! | [`RawTicketMutex`] |                      | [`RawInterruptTicketMutex`]   |
-//! |                    | [`TicketMutex`]      | [`InterruptTicketMutex`]      |
-//! |                    | [`TicketMutexGuard`] | [`InterruptTicketMutexGuard`] |
+//! | [`RawMutex`]        | Base                  | With [`RawInterruptMutex`]     |
+//! | ------------------- | --------------------- | ------------------------------ |
+//! | `R`                 | [`Mutex`]             | [`InterruptMutex`]             |
+//! | [`RawSpinMutex`]    |                       | [`RawInterruptSpinMutex`]      |
+//! |                     | [`SpinMutex`]         | [`InterruptSpinMutex`]         |
+//! |                     | [`SpinMutexGuard`]    | [`InterruptSpinMutexGuard`]    |
+//! |                     | [`OnceCell`]          | [`InterruptOnceCell`]          |
+//! |                     | [`Lazy`]              | [`InterruptLazy`]              |
+//! | [`RawOneShotMutex`] |                       | [`RawInterruptOneShotMutex`]   |
+//! |                     | [`OneShotMutex`]      | [`InterruptOneShotMutex`]      |
+//! |                     | [`OneShotMutexGuard`] | [`InterruptOneShotMutexGuard`] |
+//! | [`RawTicketMutex`]  |                       | [`RawInterruptTicketMutex`]    |
+//! |                     | [`TicketMutex`]       | [`InterruptTicketMutex`]       |
+//! |                     | [`TicketMutexGuard`]  | [`InterruptTicketMutexGuard`]  |
 //!
 //! [`RawMutex`]: lock_api::RawMutex
 //! [`Mutex`]: lock_api::Mutex
@@ -113,8 +116,13 @@ pub use interrupts::without as without_interrupts;
 pub use mutex::spin::{RawSpinMutex, SpinMutex, SpinMutexGuard};
 pub use mutex::ticket::{RawTicketMutex, TicketMutex, TicketMutexGuard};
 pub use mutex::{
-    InterruptSpinMutex, InterruptSpinMutexGuard, InterruptTicketMutex, InterruptTicketMutexGuard,
+    InterruptOneShotMutex, InterruptOneShotMutexGuard, InterruptSpinMutex, InterruptSpinMutexGuard,
+    InterruptTicketMutex, InterruptTicketMutexGuard, RawInterruptOneShotMutex,
     RawInterruptSpinMutex, RawInterruptTicketMutex,
+};
+pub use one_shot_mutex::{
+    OneShotMutex, OneShotMutexGuard, OneShotRwLock, OneShotRwLockReadGuard,
+    OneShotRwLockUpgradableReadGuard, OneShotRwLockWriteGuard, RawOneShotMutex, RawOneShotRwLock,
 };
 pub use rwlock::{
     RawRwSpinLock, RwSpinLock, RwSpinLockReadGuard, RwSpinLockUpgradableReadGuard,

@@ -11,8 +11,18 @@ pub(crate) mod spin {
 pub(crate) mod ticket;
 
 use interrupt_mutex::RawInterruptMutex;
+use one_shot_mutex::RawOneShotMutex;
 use spin::RawSpinMutex;
 use ticket::RawTicketMutex;
+
+/// An interrupt-safe [`RawOneShotMutex`].
+pub type RawInterruptOneShotMutex = RawInterruptMutex<RawOneShotMutex>;
+
+/// A [`lock_api::Mutex`] based on [`RawInterruptOneShotMutex`].
+pub type InterruptOneShotMutex<T> = lock_api::Mutex<RawInterruptOneShotMutex, T>;
+
+/// A [`lock_api::MutexGuard`] based on [`RawInterruptOneShotMutex`].
+pub type InterruptOneShotMutexGuard<'a, T> = lock_api::MutexGuard<'a, RawInterruptOneShotMutex, T>;
 
 /// An interrupt-safe [`RawSpinMutex`].
 pub type RawInterruptSpinMutex = RawInterruptMutex<RawSpinMutex>;
