@@ -51,6 +51,8 @@ jobs:
           components: rust-src, miri
       - run: cargo miri setup
       - run: cargo miri test
+        env:
+          RUSTFLAGS: -Dwarnings -Aunused-imports
 
   test:
     name: Test
