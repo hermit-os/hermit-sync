@@ -88,9 +88,24 @@
 #![cfg_attr(not(test), no_std)]
 #![warn(unsafe_op_in_unsafe_fn)]
 
-mod backoff;
 pub(crate) mod mutex;
-pub(crate) mod rwlock;
+pub(crate) mod rwlock {
+    /// A simple spinning, read-preferring readers-writer lock with exponential backoff.
+    pub type RawRwSpinLock = spinning_top::RawRwSpinlock<spinning_top::relax::Backoff>;
+
+    /// A [`lock_api::RwLock`] based on [`RawRwSpinLock`].
+    pub type RwSpinLock<T> = lock_api::RwLock<RawRwSpinLock, T>;
+
+    /// A [`lock_api::RwLockReadGuard`] based on [`RawRwSpinLock`].
+    pub type RwSpinLockReadGuard<'a, T> = lock_api::RwLockReadGuard<'a, RawRwSpinLock, T>;
+
+    /// A [`lock_api::RwLockUpgradableReadGuard`] based on [`RawRwSpinLock`].
+    pub type RwSpinLockUpgradableReadGuard<'a, T> =
+        lock_api::RwLockUpgradableReadGuard<'a, RawRwSpinLock, T>;
+
+    /// A [`lock_api::RwLockWriteGuard`] based on [`RawRwSpinLock`].
+    pub type RwSpinLockWriteGuard<'a, T> = lock_api::RwLockWriteGuard<'a, RawRwSpinLock, T>;
+}
 
 pub use exclusive_cell::{CallOnce, CallOnceError, ExclusiveCell};
 pub use interrupt_mutex::{InterruptMutex, InterruptMutexGuard, RawInterruptMutex};
