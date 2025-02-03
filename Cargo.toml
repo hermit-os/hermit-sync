@@ -19,7 +19,7 @@ one-shot-mutex = "0.1.1"
 spinning_top = "0.3"
 
 [dev-dependencies]
-rand = "0.8"
+rand = "0.9"
 
 [features]
 all-one-shot = []
