@@ -37,7 +37,7 @@ unsafe impl RawMutex for RawTicketMutex {
     fn try_lock(&self) -> bool {
         let ticket = self
             .next_ticket
-            .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |ticket| {
+            .try_update(Ordering::SeqCst, Ordering::SeqCst, |ticket| {
                 if self.next_serving.load(Ordering::Acquire) == ticket {
                     Some(ticket + 1)
                 } else {
