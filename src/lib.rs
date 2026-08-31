@@ -129,7 +129,7 @@ pub use mutex::{
     InterruptTicketMutex, InterruptTicketMutexGuard, RawInterruptOneShotMutex,
     RawInterruptSpinMutex, RawInterruptTicketMutex,
 };
-pub use one_shot_mutex::{
+pub use one_shot_mutex::sync::{
     OneShotMutex, OneShotMutexGuard, OneShotRwLock, OneShotRwLockReadGuard,
     OneShotRwLockUpgradableReadGuard, OneShotRwLockWriteGuard, RawOneShotMutex, RawOneShotRwLock,
 };

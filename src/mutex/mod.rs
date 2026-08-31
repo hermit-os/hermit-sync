@@ -27,7 +27,7 @@ pub(crate) mod ticket {
 }
 
 use interrupt_mutex::RawInterruptMutex;
-use one_shot_mutex::RawOneShotMutex;
+use one_shot_mutex::sync::RawOneShotMutex;
 use spin::RawSpinMutex;
 use ticket::RawTicketMutex;
 
