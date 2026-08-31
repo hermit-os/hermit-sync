@@ -19,7 +19,7 @@ dependencies = [
 
 [[package]]
 name = "hermit-sync"
-version = "0.1.6"
+version = "0.2.0"
 dependencies = [
  "exclusive_cell",
  "generic_once_cell",
