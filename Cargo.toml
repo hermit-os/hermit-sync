@@ -1,7 +1,7 @@
 [package]
 name = "hermit-sync"
 version = "0.1.6"
-edition = "2021"
+edition = "2024"
 description = "Synchronization primitives for kernels."
 repository = "https://github.com/hermitcore/hermit-sync"
 license = "MIT OR Apache-2.0"
