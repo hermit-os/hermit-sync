@@ -17,8 +17,5 @@ lock_api = "0.4"
 one-shot-mutex = "0.2"
 spinning_top = "0.3"
 
-[dev-dependencies]
-rand = "0.10"
-
 [features]
 all-one-shot = []
