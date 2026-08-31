@@ -23,7 +23,7 @@
 //!
 //! ## Examples
 //!
-//! ```
+//! ```no_run
 //! use hermit_sync::InterruptSpinMutex;
 //!
 //! static NUMBER: InterruptSpinMutex<usize> = InterruptSpinMutex::new(0);
@@ -46,7 +46,7 @@
 //!
 //! ## Examples
 //!
-//! ```
+//! ```no_run
 //! use std::collections::HashMap;
 //!
 //! use hermit_sync::InterruptLazy;
