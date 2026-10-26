@@ -13,7 +13,7 @@ exclusive_cell = "0.1"
 generic_once_cell = "0.1"
 interrupts = "0.2"
 interrupt-mutex = "0.2"
-lock_api = "0.4"
+lock_api = "0.5"
 one-shot-mutex = "0.2"
 spinning_top = "0.3"
 
