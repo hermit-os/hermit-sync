@@ -14,7 +14,7 @@ version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2c68077b018781ddfbc95f9d333ddacd1c8c1da4f331407c5cecc63f53733eab"
 dependencies = [
- "lock_api",
+ "lock_api 0.4.14",
 ]
 
 [[package]]
@@ -25,7 +25,7 @@ dependencies = [
  "generic_once_cell",
  "interrupt-mutex",
  "interrupts",
- "lock_api",
+ "lock_api 0.4.14",
  "one-shot-mutex",
  "spinning_top",
 ]
@@ -37,7 +37,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23f5f7b1e09352d9fcac00d7df71b8414a8b827e30d4fcf2d7a653fc34db7528"
 dependencies = [
  "interrupts",
- "lock_api",
+ "lock_api 0.4.14",
 ]
 
 [[package]]
@@ -56,12 +56,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "one-shot-mutex"
-version = "0.2.1"
+name = "lock_api"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cbb10614a03e671fcbb7f1421656788f9a761aab44563b83b07140c354fa9334"
+checksum = "65d91b22da179613dcf4d6ec8349563f52a363f6849e03b00dd0a185ec4a59af"
 dependencies = [
- "lock_api",
+ "scopeguard",
+]
+
+[[package]]
+name = "one-shot-mutex"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9de3b548319a0d17b3e853587ea0b1d2d1e4b480878ea604699209afae9b3730"
+dependencies = [
+ "lock_api 0.5.0",
 ]
 
 [[package]]
@@ -76,5 +85,5 @@ version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d96d2d1d716fb500937168cc09353ffdc7a012be8475ac7308e1bdf0e3923300"
 dependencies = [
- "lock_api",
+ "lock_api 0.4.14",
 ]
