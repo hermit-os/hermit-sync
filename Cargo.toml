@@ -14,7 +14,7 @@ generic_once_cell = "0.1"
 interrupts = "0.2"
 interrupt-mutex = "0.2"
 lock_api = "0.4"
-one-shot-mutex = "0.2"
+one-shot-mutex = "0.3"
 spinning_top = "0.3"
 
 [features]
