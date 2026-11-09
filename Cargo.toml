@@ -15,7 +15,7 @@ interrupts = "0.2"
 interrupt-mutex = "0.2"
 lock_api = "0.4"
 one-shot-mutex = "0.2"
-spinning_top = "0.3"
+spinning_top = "0.4"
 
 [features]
 all-one-shot = []
